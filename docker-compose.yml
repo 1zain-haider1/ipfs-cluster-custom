@@ -39,12 +39,13 @@ services:
 #     - "4001:4001" # ipfs swarm - expose if needed/wanted
 #     - "5001:5001" # ipfs api - expose if needed/wanted
 #     - "8080:8080" # ipfs gateway - expose if needed/wanted
+# docker pull zainhaidervii/ipfs:latest
     volumes:
       - ./compose/ipfs0:/data/ipfs
 
   cluster0:
     container_name: cluster0
-    image: ipfs/ipfs-cluster:latest
+    image: zainhaidervii/ipfs:latest
     depends_on:
       - ipfs0
     environment:
@@ -78,7 +79,7 @@ services:
 
   cluster1:
     container_name: cluster1
-    image: ipfs/ipfs-cluster:latest
+    image: zainhaidervii/ipfs:latest
     depends_on:
       - ipfs1
     environment:
@@ -103,7 +104,7 @@ services:
 
   cluster2:
     container_name: cluster2
-    image: ipfs/ipfs-cluster:latest
+    image: zainhaidervii/ipfs:latest
     depends_on:
       - ipfs2
     environment:

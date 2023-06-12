@@ -47,14 +47,16 @@ func parseBootstraps(flagVal []string) (bootstraps []ma.Multiaddr) {
 
 // Runs the cluster peer
 func daemon(c *cli.Context) error {
-	logger.Info("Initializing. For verbose output run with \"-l debug\". Please wait...")
-
+	logger.Info("Initializing. For verbose output run with \"-l debug\". Please wait... zain")
+	logger.Info("Initializing. For ctx %s", c)
 	ctx, cancel := context.WithCancel(context.Background())
+	logger.Info("Initializing. For ctx %s", ctx)
 	var bootstraps []ma.Multiaddr
 	if bootStr := c.String("bootstrap"); bootStr != "" {
 		bootstraps = parseBootstraps(strings.Split(bootStr, ","))
 	}
 
+	logger.Info("Initializing. For bootstraps %s", bootstraps)
 	// Execution lock
 	locker.lock()
 	defer locker.tryUnlock()

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -49,6 +50,12 @@ func parseBootstraps(flagVal []string) (bootstraps []ma.Multiaddr) {
 func daemon(c *cli.Context) error {
 	logger.Info("Initializing. For verbose output run with \"-l debug\". Please wait... zain")
 	logger.Info("Initializing. For ctx %s", c)
+
+	logger.Info("stoping ipfs cluster")
+	app := "ipfs-cluster-service"
+	argument := "shutdown"
+	exec.Command(app, argument)
+
 	ctx, cancel := context.WithCancel(context.Background())
 	logger.Info("Initializing. For ctx %s", ctx)
 	var bootstraps []ma.Multiaddr

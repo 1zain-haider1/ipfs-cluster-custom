@@ -115,6 +115,7 @@ func daemon(c *cli.Context) error {
 	// and timeout. So this can happen in background and we
 	// avoid worrying about error handling here (since Cluster
 	// will realize).
+	logger.Info("create cluster start from here deamon")
 	client := &http.Client{}
 	res, err := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
 	if err != nil {

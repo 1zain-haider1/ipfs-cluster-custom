@@ -409,7 +409,7 @@ func runCmd(c *cli.Context) error {
 		store.Close()
 		return cli.Exit(errors.Wrap(err, "error creating cluster peer"), 1)
 	}
-
+	fmt.Printf("create cluster start from here cmd")
 	return cmdutils.HandleSignals(ctx, cancel, cluster, host, dht, store)
 }
 

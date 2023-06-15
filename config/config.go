@@ -405,7 +405,7 @@ func (cfg *Manager) LoadJSONFileAndEnv(path string) error {
 // In order to work, component configurations must have been registered
 // beforehand with RegisterComponent.
 func (cfg *Manager) LoadJSON(bs []byte) error {
-	logger.Info(" cfg -----> %s ", cfg)
+	logger.Info("zain cfg -----> %s ", cfg)
 	dir := filepath.Dir(cfg.path)
 
 	jcfg := &jsonConfig{}
@@ -414,7 +414,7 @@ func (cfg *Manager) LoadJSON(bs []byte) error {
 		logger.Error("error parsing JSON: ", err)
 		return err
 	}
-
+	logger.Info("zain jcfg -----> %s ", jcfg)
 	cfg.jsonCfg = jcfg
 	// Handle remote source
 	if jcfg.Source != "" {

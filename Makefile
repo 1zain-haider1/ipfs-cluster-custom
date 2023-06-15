@@ -52,6 +52,12 @@ clean_sharness:
 	@rm -rf ./sharness/test-results
 	@rm -rf ./sharness/lib/sharness
 	@rm -rf sharness/trash\ directory*
+docker_imge:
+	docker build -t cluster-image-z -f Dockerfile .
+	docker run --name tmp-make-cluster -d --rm cluster-image-z && sleep 4
+	docker exec tmp-make-cluster sh -c "ipfs-cluster-ctl version"
+	docker exec tmp-make-cluster sh -c "ipfs-cluster-service -v"
+	docker kill tmp-make-cluster
 
 docker:
 	docker build -t cluster-image-z -f Dockerfile .

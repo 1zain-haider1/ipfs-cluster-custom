@@ -52,6 +52,7 @@ clean_sharness:
 	@rm -rf ./sharness/test-results
 	@rm -rf ./sharness/lib/sharness
 	@rm -rf sharness/trash\ directory*
+	
 docker_imge:
 	docker build -t cluster-image-z -f Dockerfile .
 	docker run --name tmp-make-cluster -d --rm cluster-image-z && sleep 4

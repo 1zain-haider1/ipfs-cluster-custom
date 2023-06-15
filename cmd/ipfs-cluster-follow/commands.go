@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -271,15 +273,15 @@ func runCmd(c *cli.Context) error {
 	fmt.Printf("Starting the IPFS Cluster follower peer for \"%s\".\nCTRL-C to stop it.\n", clusterName)
 	fmt.Println("Checking if IPFS is online (will wait for 2 minutes)...")
 	fmt.Printf("create cluster start from here cmd")
-	// client := &http.Client{}
-	// res, errAuth := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
-	// if errAuth != nil {
-	// 	return cli.Exit("user not authenticated", 1)
-	// }
-	// resp, _ := client.Do(res)
-	// body, _ := io.ReadAll(resp.Body)
-	// resp.Body.Close()
-	// fmt.Printf("create cluster start from here cmd %s", body)
+	client := &http.Client{}
+	res, errAuth := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
+	if errAuth != nil {
+		return cli.Exit("user not authenticated", 1)
+	}
+	resp, _ := client.Do(res)
+	body, _ := io.ReadAll(resp.Body)
+	resp.Body.Close()
+	fmt.Printf("create cluster start from here cmd %s", body)
 	ctxIpfs, cancelIpfs := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancelIpfs()
 	err := cmdutils.WaitForIPFS(ctxIpfs)

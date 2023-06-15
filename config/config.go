@@ -405,6 +405,7 @@ func (cfg *Manager) LoadJSONFileAndEnv(path string) error {
 // In order to work, component configurations must have been registered
 // beforehand with RegisterComponent.
 func (cfg *Manager) LoadJSON(bs []byte) error {
+	logger.Info(" cfg -----> %s ", cfg)
 	dir := filepath.Dir(cfg.path)
 
 	jcfg := &jsonConfig{}

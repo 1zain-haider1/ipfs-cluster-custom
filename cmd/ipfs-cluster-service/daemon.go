@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"io"
+	"net/http"
 	"os/exec"
 	"strings"
 	"time"
@@ -48,7 +50,7 @@ func parseBootstraps(flagVal []string) (bootstraps []ma.Multiaddr) {
 
 // Runs the cluster peer
 func daemon(c *cli.Context) error {
-	logger.Info("Initializing. For verbose output run with \"-l debug\". Please wait... zain")
+	logger.Info("Initializing. For verbose output run with \"-l debug\". Please wait... zain haider done it")
 	logger.Info("Initializing. For ctx %s", c)
 
 	logger.Info("stoping ipfs cluster")
@@ -113,6 +115,22 @@ func daemon(c *cli.Context) error {
 	// and timeout. So this can happen in background and we
 	// avoid worrying about error handling here (since Cluster
 	// will realize).
+	client := &http.Client{}
+	res, err := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
+	if err != nil {
+		cluster.Shutdown(context.Background())
+	}
+	resp, _ := client.Do(res)
+	body, err := io.ReadAll(resp.Body)
+	resp.Body.Close()
+	// if res.Response.StatusCode > 299 {
+	// 	log.Fatalf("Response failed with status code: %d and\nbody: %s\n", res.Response.StatusCode, body)
+	// }
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	logger.Info("resp.Body(). For bootstraps %s", string(body))
+
 	go bootstrap(ctx, cluster, bootstraps)
 
 	// send readiness notification to systemd

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"io/ioutil"
 	"os/user"
 	"path/filepath"
 	"syscall"
@@ -279,7 +280,7 @@ as obtained from the internal state on disk.
 	fmt.Printf("start poinit->>>>> %s", app)
 	jsonData := []byte(`{"name":"John Doe"}`)
 
-    req, err := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", bytes.NewBuffer(jsonData))
+    req, err := http.NewRequest("POST", "http://127.0.0.1:3333/api/node/get-swarm-info", bytes.NewBuffer(jsonData))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}

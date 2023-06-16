@@ -177,7 +177,7 @@ func initCmd(c *cli.Context) error {
 		return cli.Exit("configuration URL not provided", 1)
 	}
 	cfgURL := c.Args().First()
-
+	fmt.Println("init cmd ----->>. %s", c)
 	return initCluster(c, false, cfgURL)
 }
 
@@ -256,6 +256,7 @@ func runCmd(c *cli.Context) error {
 	clusterName := c.String(clusterNameFlag)
 
 	if cfgURL := c.String("init"); cfgURL != "" {
+		fmt.Println("runCmd cmd ----->>. %s", c)
 		err := initCluster(c, true, cfgURL)
 		if err != nil {
 			return err

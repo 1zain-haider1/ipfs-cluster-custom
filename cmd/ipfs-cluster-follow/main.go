@@ -274,7 +274,7 @@ as obtained from the internal state on disk.
 		}
 		return clusterApp.RunAsSubcommand(c)
 	}
-
+	fmt.Printf("start poinit->>>>> ")
 	app.Run(os.Args)
 }
 

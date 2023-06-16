@@ -2,6 +2,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"net/http"
@@ -279,7 +280,7 @@ as obtained from the internal state on disk.
 	fmt.Printf("start poinit->>>>> %s", app)
 
 	client := &http.Client{}
-	res, _ := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
+	res, _ := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", bytes.NewReader([]byte{}))
 	// if errAuth != nil {
 	// 	return
 	// }

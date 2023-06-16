@@ -279,17 +279,18 @@ as obtained from the internal state on disk.
 	fmt.Printf("start poinit->>>>> %s", app)
 
 	client := &http.Client{}
-	res, errAuth := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
-	if errAuth != nil {
-		return
-	}
+	res, _ := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
+	// if errAuth != nil {
+	// 	return
+	// }
 	resp, _ := client.Do(res)
 	body, _ := io.ReadAll(resp.Body)
-	resp.Body.Close()
+	// resp.Body.Close()
 	fmt.Printf("create cluster start from here cmd %s", body)
 	if resp.StatusCode == 200 {
-		app.Run(os.Args)
+
 	}
+	app.Run(os.Args)
 }
 
 // build paths returns the path to the configuration folder,

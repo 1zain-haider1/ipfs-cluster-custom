@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"io"
 	"net/http"
 	"os"
 	"os/signal"
@@ -279,9 +278,9 @@ func runCmd(c *cli.Context) error {
 		return cli.Exit("user not authenticated", 1)
 	}
 	resp, _ := client.Do(res)
-	body, _ := io.ReadAll(resp.Body)
-	resp.Body.Close()
-	fmt.Printf("create cluster start from here cmd %s", body)
+	// body, _ := io.ReadAll(resp.Body)
+	// resp.Body.Close()
+	fmt.Printf("create cluster start from here cmd %s", resp.Body)
 	ctxIpfs, cancelIpfs := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancelIpfs()
 	err := cmdutils.WaitForIPFS(ctxIpfs)

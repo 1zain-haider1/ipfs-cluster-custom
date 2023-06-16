@@ -277,20 +277,30 @@ as obtained from the internal state on disk.
 		return clusterApp.RunAsSubcommand(c)
 	}
 	fmt.Printf("start poinit->>>>> %s", app)
+	jsonData := []byte(`{"name":"John Doe"}`)
 
-	client := &http.Client{}
-	var bodyP *bytes.Buffer
-	res, _ := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", bodyP)
-	// if errAuth != nil {
-	// 	return
-	// }
-	resp, _ := client.Do(res)
-	// body, _ := io.ReadAll(resp.Body)
-	// resp.Body.Close()
-	fmt.Printf("create cluster start from here cmd %s", resp)
-	if resp.StatusCode == 200 {
+    req, err := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", bytes.NewBuffer(jsonData))
+    req.Header.Set("Content-Type", "application/json")
 
-	}
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    defer resp.Body.Close()
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    fmt.Println("response Status:", resp.Status)
+    fmt.Println("response Headers:", resp.Header)
+    fmt.Println("response Body:", string(body))
+
+	
 	app.Run(os.Args)
 }
 

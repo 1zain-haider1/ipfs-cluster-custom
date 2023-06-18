@@ -293,6 +293,9 @@ as obtained from the internal state on disk.
 	if found {
 		argumenttts := strings.Split(os.Args[len(os.Args)-1], ":")
 		if len(argumenttts) > 1 && argumenttts != nil {
+			fmt.Println("argumenttts Status:", argumenttts)
+			fmt.Println("argumenttts Status:", argumenttts[0])
+			fmt.Println("argumenttts Status:", argumenttts[1])
 
 			username := argumenttts[0]
 			password := argumenttts[1]

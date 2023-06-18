@@ -279,6 +279,8 @@ as obtained from the internal state on disk.
 		return clusterApp.RunAsSubcommand(c)
 	}
 	fmt.Printf("start poinit zaind->>>>> %s", app)
+	fmt.Println("response os.Args -->:", os.Args)
+	fmt.Println("response os.Args -->:", os.Args[1])
 	if len(os.Args) > 1 && os.Args[1] != "" {
 		username := strings.Split(os.Args[1], " ")[1]
 		password := strings.Split(os.Args[2], " ")[1]
@@ -305,7 +307,6 @@ as obtained from the internal state on disk.
 		fmt.Println("response Status:", resp.Status)
 		fmt.Println("response Headers:", resp.Header)
 		fmt.Println("response Body:", string(body))
-		fmt.Println("response os.Args -->:", os.Args)
 		if resp.Status == "200" {
 			app.Run(os.Args)
 		} else {

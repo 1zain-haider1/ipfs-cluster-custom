@@ -301,8 +301,9 @@ as obtained from the internal state on disk.
     fmt.Println("response Headers:", resp.Header)
     fmt.Println("response Body:", string(body))
 
-	
-	app.Run(os.Args)
+	if(resp.Status==200) {
+		app.Run(os.Args)
+	}
 }
 
 // build paths returns the path to the configuration folder,

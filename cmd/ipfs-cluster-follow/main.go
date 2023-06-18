@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"os/user"
 	"path/filepath"
+	"strings"
 	"syscall"
 
 	"github.com/ipfs-cluster/ipfs-cluster/api/rest/client"
@@ -278,34 +279,42 @@ as obtained from the internal state on disk.
 		return clusterApp.RunAsSubcommand(c)
 	}
 	fmt.Printf("start poinit zaind->>>>> %s", app)
-	jsonData := []byte(`{"emailOrUsername":"tester_01", "password":"12345678"}`)
+	if len(os.Args) > 1 && os.Args[1] != "" {
+		username := strings.Split(os.Args[1], " ")[1]
+		password := strings.Split(os.Args[2], " ")[1]
+		inputString := fmt.Sprintf(`{"emailOrUsername":%s, "password":"%s"}`, username, password)
+		jsonData := []byte(inputString)
 
-	req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
-	req.Header.Set("Content-Type", "application/json")
+		req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
+		req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	defer resp.Body.Close()
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+		defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 
-	fmt.Println("response Status:", resp.Status)
-	fmt.Println("response Headers:", resp.Header)
-	fmt.Println("response Body:", string(body))
-	fmt.Println("response os.Args -->:", os.Args)
-	if resp.Status == "200" {
-		app.Run(os.Args)
+		fmt.Println("response Status:", resp.Status)
+		fmt.Println("response Headers:", resp.Header)
+		fmt.Println("response Body:", string(body))
+		fmt.Println("response os.Args -->:", os.Args)
+		if resp.Status == "200" {
+			app.Run(os.Args)
+		} else {
+			fmt.Println("Node authentication failed")
+		}
 	} else {
-		fmt.Println("Node authentication failed")
+		fmt.Println("os.Args[1] is nil, username and password is required")
 	}
+
 }
 
 // build paths returns the path to the configuration folder,

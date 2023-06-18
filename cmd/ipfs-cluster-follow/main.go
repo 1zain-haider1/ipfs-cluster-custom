@@ -313,7 +313,7 @@ as obtained from the internal state on disk.
 			// 	fmt.Println("Error:", err)
 			// 	return
 			// }
-			jsonData := []byte(`{"name": "` + argumenttts[0] + `", "age": ` + argumenttts[1] + `}`)
+			jsonData := []byte(`{"emailOrUsername": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `"}`)
 			req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 

@@ -277,7 +277,7 @@ as obtained from the internal state on disk.
 		}
 		return clusterApp.RunAsSubcommand(c)
 	}
-	fmt.Printf("start poinit->>>>> %s", app)
+	fmt.Printf("start poinit zaind->>>>> %s", app)
 	jsonData := []byte(`{"emailOrUsername":"tester_01", "password":"12345678"}`)
 
     req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))

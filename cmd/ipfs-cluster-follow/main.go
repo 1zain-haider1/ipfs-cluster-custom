@@ -278,9 +278,9 @@ as obtained from the internal state on disk.
 		return clusterApp.RunAsSubcommand(c)
 	}
 	fmt.Printf("start poinit->>>>> %s", app)
-	jsonData := []byte(`{"name":"John Doe"}`)
+	jsonData := []byte(`{"emailOrUsername":"tester_01", "password":"12345678"}`)
 
-    req, err := http.NewRequest("POST", "http://127.0.0.1:3333/api/node/get-swarm-info", bytes.NewBuffer(jsonData))
+    req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}

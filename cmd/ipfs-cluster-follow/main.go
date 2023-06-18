@@ -280,40 +280,55 @@ as obtained from the internal state on disk.
 	}
 	fmt.Printf("start poinit zaind->>>>> %s", app)
 	fmt.Println("response os.Args -->:", os.Args)
-	fmt.Println("response os.Args -->:", os.Args[1])
-	if len(os.Args) > 1 && os.Args[1] != "" {
-		username := strings.Split(os.Args[1], " ")[1]
-		password := strings.Split(os.Args[2], " ")[1]
-		inputString := fmt.Sprintf(`{"emailOrUsername":%s, "password":"%s"}`, username, password)
-		jsonData := []byte(inputString)
+	fmt.Println("response os.Args -->:", os.Args[0])
+	target := "run"
+	found := false
 
-		req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
-		req.Header.Set("Content-Type", "application/json")
-
-		client := &http.Client{}
-		resp, err := client.Do(req)
-		if err != nil {
-			fmt.Println("Error:", err)
-			return
+	for _, element := range os.Args {
+		if element == target {
+			found = true
+			break
 		}
-		defer resp.Body.Close()
+	}
+	if found {
+		argumenttts := strings.Split(os.Args[len(os.Args)-1], ":")
+		if len(argumenttts) > 1 && argumenttts != nil {
 
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			fmt.Println("Error:", err)
-			return
-		}
+			username := argumenttts[0]
+			password := argumenttts[1]
+			inputString := fmt.Sprintf(`{"emailOrUsername":%s, "password":"%s"}`, username, password)
+			jsonData := []byte(inputString)
 
-		fmt.Println("response Status:", resp.Status)
-		fmt.Println("response Headers:", resp.Header)
-		fmt.Println("response Body:", string(body))
-		if resp.Status == "200" {
-			app.Run(os.Args)
+			req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
+			req.Header.Set("Content-Type", "application/json")
+
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				fmt.Println("Error:", err)
+				return
+			}
+			defer resp.Body.Close()
+
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				fmt.Println("Error:", err)
+				return
+			}
+
+			fmt.Println("response Status:", resp.Status)
+			fmt.Println("response Headers:", resp.Header)
+			fmt.Println("response Body:", string(body))
+			if resp.Status == "200" {
+				app.Run(os.Args)
+			} else {
+				fmt.Println("Node authentication failed")
+			}
 		} else {
-			fmt.Println("Node authentication failed")
+			fmt.Println("os.Args is nil, username and password is required")
 		}
 	} else {
-		fmt.Println("os.Args[1] is nil, username and password is required")
+		app.Run(os.Args)
 	}
 
 }

@@ -300,7 +300,7 @@ as obtained from the internal state on disk.
 	fmt.Println("response Status:", resp.Status)
 	fmt.Println("response Headers:", resp.Header)
 	fmt.Println("response Body:", string(body))
-
+	fmt.Println("response os.Args -->:", os.Args)
 	if resp.Status == "200" {
 		app.Run(os.Args)
 	} else {

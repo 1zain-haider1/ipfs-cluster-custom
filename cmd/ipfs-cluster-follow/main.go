@@ -3,7 +3,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -302,19 +301,19 @@ as obtained from the internal state on disk.
 			fmt.Println("argumenttts Status:", argumenttts)
 			fmt.Println("argumenttts Status:", argumenttts[0])
 			fmt.Println("argumenttts Status:", argumenttts[1])
-			data := PostData{
-				emailOrUsername: argumenttts[0],
-				password:        argumenttts[1],
-			}
+			// data := PostData{
+			// 	emailOrUsername: argumenttts[0],
+			// 	password:        argumenttts[1],
+			// }
 			// username := argumenttts[0]
 			// password := argumenttts[1]
 			// inputString := fmt.Sprintf(`{"emailOrUsername":%s, "password":"%s"}`, username, password)
-			jsonData, err := json.Marshal(data)
-			if err != nil {
-				fmt.Println("Error:", err)
-				return
-			}
-
+			// jsonData, err := json.Marshal(data)
+			// if err != nil {
+			// 	fmt.Println("Error:", err)
+			// 	return
+			// }
+			jsonData := []byte(`{"name": "` + argumenttts[0] + `", "age": ` + argumenttts[1] + `}`)
 			req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 

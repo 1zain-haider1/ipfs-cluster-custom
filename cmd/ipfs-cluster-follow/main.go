@@ -334,7 +334,7 @@ as obtained from the internal state on disk.
 			fmt.Println("response Status:", resp.Status)
 			fmt.Println("response Headers:", resp.Header)
 			fmt.Println("response Body:", string(body))
-			if resp.Status == "200" {
+			if resp.Status == "200 OK" {
 				app.Run(os.Args)
 			} else {
 				fmt.Println("Node authentication failed")

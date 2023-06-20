@@ -422,7 +422,16 @@ func runCmd(c *cli.Context) error {
 		return cli.Exit(errors.Wrap(err, "error creating cluster peer"), 1)
 	}
 	fmt.Printf("create cluster start from here cmd")
+	go repetitiveTask(cluster)
 	return cmdutils.HandleSignals(ctx, cancel, cluster, host, dht, store)
+}
+
+func repetitiveTask(cluster *ipfscluster.Cluster) {
+	for {
+		fmt.Println("Repetitive task")
+		time.Sleep(2 * time.Second) // Delay between each iteration
+		cluster.Shutdown(context.Background())
+	}
 }
 
 // List

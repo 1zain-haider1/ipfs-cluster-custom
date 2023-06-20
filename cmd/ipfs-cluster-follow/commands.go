@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
@@ -429,8 +431,52 @@ func runCmd(c *cli.Context) error {
 func repetitiveTask(cluster *ipfscluster.Cluster) {
 	for {
 		fmt.Println("Repetitive task")
-		time.Sleep(2 * time.Second) // Delay between each iteration
-		cluster.Shutdown(context.Background())
+		// Delay between each iteration
+		argumenttts := strings.Split(os.Args[len(os.Args)-1], ":")
+		if len(argumenttts) > 1 && argumenttts != nil {
+			fmt.Println("Repetitive --> argumenttts Status:", argumenttts)
+			fmt.Println("Repetitive --> argumenttts Status:", argumenttts[0])
+			fmt.Println("Repetitive --> argumenttts Status:", argumenttts[1])
+			// data := PostData{
+			// 	emailOrUsername: argumenttts[0],
+			// 	password:        argumenttts[1],
+			// }
+			// username := argumenttts[0]
+			// password := argumenttts[1]
+			// inputString := fmt.Sprintf(`{"emailOrUsername":%s, "password":"%s"}`, username, password)
+			// jsonData, err := json.Marshal(data)
+			// if err != nil {
+			// 	fmt.Println("Error:", err)
+			// 	return
+			// }
+			jsonData := []byte(`{"emailOrUsername": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `"}`)
+			req, _ := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
+			req.Header.Set("Content-Type", "application/json")
+
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+			resp.Body.Close()
+
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+
+			fmt.Println("response Status:", resp.Status)
+			fmt.Println("response Headers:", resp.Header)
+			fmt.Println("response Body:", string(body))
+			if resp.Status == "200 OK" {
+				fmt.Println("node auth fine")
+			} else {
+				fmt.Println("Node authentication failed")
+				cluster.Shutdown(context.Background())
+			}
+
+			time.Sleep(5 * time.Second)
+		}
 	}
 }
 

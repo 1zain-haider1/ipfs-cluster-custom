@@ -53,8 +53,8 @@ clean_sharness:
 	@rm -rf ./sharness/lib/sharness
 	@rm -rf sharness/trash\ directory*
 	
-docker_imge:
-	docker build -t cluster-image-z -f Dockerfile .
+docker_image:
+	docker build --build-arg BRANCH_NAME=task/repitative_auth -t cluster-image-z -f Dockerfile .
 	docker run --name tmp-make-cluster -d --rm cluster-image-z && sleep 4
 	docker exec tmp-make-cluster sh -c "ipfs-cluster-ctl version"
 	docker exec tmp-make-cluster sh -c "ipfs-cluster-service -v"

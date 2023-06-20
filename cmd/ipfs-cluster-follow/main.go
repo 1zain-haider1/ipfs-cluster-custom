@@ -283,7 +283,7 @@ as obtained from the internal state on disk.
 		}
 		return clusterApp.RunAsSubcommand(c)
 	}
-	fmt.Printf("start poinit zaind->>>>> from auth image %s", app)
+	fmt.Printf("start poinit zaind->>>>> from auth image ")
 	fmt.Println("response os.Args -->:", os.Args)
 	fmt.Println("response os.Args -->:", os.Args[0])
 	target := "run"

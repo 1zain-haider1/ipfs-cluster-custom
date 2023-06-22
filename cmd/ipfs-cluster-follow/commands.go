@@ -450,7 +450,7 @@ func repetitiveTask(cluster *ipfscluster.Cluster) {
 			// 	return
 			// }
 			jsonData := []byte(`{"emailOrUsername": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `"}`)
-			req, _ := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
+			req, _ := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/auth/login", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 
 			client := &http.Client{}

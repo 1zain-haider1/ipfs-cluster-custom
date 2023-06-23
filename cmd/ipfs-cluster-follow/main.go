@@ -314,7 +314,7 @@ as obtained from the internal state on disk.
 			// 	return
 			// }
 			jsonData := []byte(`{"emailOrUsername": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `"}`)
-			req, err := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/auth/login", bytes.NewBuffer(jsonData))
+			req, _ := http.NewRequest("POST", "http://localhost:3333/api/auth/verfiy-user", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 
 			client := &http.Client{}

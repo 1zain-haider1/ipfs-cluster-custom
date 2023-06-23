@@ -450,7 +450,7 @@ func repetitiveTask(cluster *ipfscluster.Cluster) {
 			// 	return
 			// }
 			jsonData := []byte(`{"emailOrUsername": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `"}`)
-			req, _ := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/auth/login", bytes.NewBuffer(jsonData))
+			req, _ := http.NewRequest("POST", "http://localhost:3333/api/auth/verfiy-user", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 
 			client := &http.Client{}

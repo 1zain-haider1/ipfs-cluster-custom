@@ -283,7 +283,7 @@ as obtained from the internal state on disk.
 		}
 		return clusterApp.RunAsSubcommand(c)
 	}
-	fmt.Printf("start poinit zaind->>>>> %s", app)
+	fmt.Printf("start poinit zaind->>>>> from auth image ")
 	fmt.Println("response os.Args -->:", os.Args)
 	fmt.Println("response os.Args -->:", os.Args[0])
 	target := "run"
@@ -313,8 +313,8 @@ as obtained from the internal state on disk.
 			// 	fmt.Println("Error:", err)
 			// 	return
 			// }
-			jsonData := []byte(`{"emailOrUsername": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `"}`)
-			req, err := http.NewRequest("POST", "https://devapi.impactoverse.com/api/user/login", bytes.NewBuffer(jsonData))
+			jsonData := []byte(`{"email": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `", "nodeId": "` + argumenttts[2] + `"}`)
+			req, _ := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/node/verify-node-status", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 
 			client := &http.Client{}

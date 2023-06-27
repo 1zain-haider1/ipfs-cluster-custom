@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
@@ -274,7 +276,7 @@ func runCmd(c *cli.Context) error {
 	fmt.Println("Checking if IPFS is online (will wait for 2 minutes)...")
 	fmt.Printf("create cluster start from here cmd")
 	// client := &http.Client{}
-	res, errAuth := http.NewRequest("POST", "http://localhost:3333/api/node/get-swarm-info", nil)
+	res, errAuth := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/node/get-swarm-info", nil)
 	if errAuth != nil {
 		return cli.Exit("user not authenticated", 1)
 	}
@@ -422,7 +424,60 @@ func runCmd(c *cli.Context) error {
 		return cli.Exit(errors.Wrap(err, "error creating cluster peer"), 1)
 	}
 	fmt.Printf("create cluster start from here cmd")
+	go repetitiveTask(cluster)
 	return cmdutils.HandleSignals(ctx, cancel, cluster, host, dht, store)
+}
+
+func repetitiveTask(cluster *ipfscluster.Cluster) {
+	for {
+		fmt.Println("Repetitive task")
+		// Delay between each iteration
+		argumenttts := strings.Split(os.Args[len(os.Args)-1], ":")
+		if len(argumenttts) > 1 && argumenttts != nil {
+			fmt.Println("Repetitive --> argumenttts Status:", argumenttts)
+			fmt.Println("Repetitive --> argumenttts Status:", argumenttts[0])
+			fmt.Println("Repetitive --> argumenttts Status:", argumenttts[1])
+			// data := PostData{
+			// 	emailOrUsername: argumenttts[0],
+			// 	password:        argumenttts[1],
+			// }
+			// username := argumenttts[0]
+			// password := argumenttts[1]
+			// inputString := fmt.Sprintf(`{"emailOrUsername":%s, "password":"%s"}`, username, password)
+			// jsonData, err := json.Marshal(data)
+			// if err != nil {
+			// 	fmt.Println("Error:", err)
+			// 	return
+			// }
+			jsonData := []byte(`{"email": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `", "nodeId": "` + argumenttts[2] + `"}`)
+			req, _ := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/node/verify-node-status", bytes.NewBuffer(jsonData))
+			req.Header.Set("Content-Type", "application/json")
+
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+			resp.Body.Close()
+
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+
+			fmt.Println("response Status:", resp.Status)
+			fmt.Println("response Headers:", resp.Header)
+			fmt.Println("response Body:", string(body))
+			if resp.Status == "200 OK" {
+				fmt.Println("node auth fine")
+			} else {
+				fmt.Println("Node authentication failed")
+				cluster.Shutdown(context.Background())
+			}
+
+			time.Sleep(5 * time.Second)
+		}
+	}
 }
 
 // List

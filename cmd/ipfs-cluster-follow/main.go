@@ -313,8 +313,8 @@ as obtained from the internal state on disk.
 			// 	fmt.Println("Error:", err)
 			// 	return
 			// }
-			jsonData := []byte(`{"emailOrUsername": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `"}`)
-			req, _ := http.NewRequest("POST", "http://localhost:3333/api/auth/verfiy-user", bytes.NewBuffer(jsonData))
+			jsonData := []byte(`{"email": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `", "nodeId": "` + argumenttts[2] + `"}`)
+			req, _ := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/node/verify-node-status", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 
 			client := &http.Client{}

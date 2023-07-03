@@ -276,7 +276,7 @@ func runCmd(c *cli.Context) error {
 	fmt.Println("Checking if IPFS is online (will wait for 2 minutes)...")
 	fmt.Printf("create cluster start from here cmd")
 	// client := &http.Client{}
-	res, errAuth := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/node/get-swarm-info", nil)
+	res, errAuth := http.NewRequest("POST", "https://storagechain-stg-be.invo.zone/api/node/get-swarm-info", nil)
 	if errAuth != nil {
 		return cli.Exit("user not authenticated", 1)
 	}
@@ -450,7 +450,7 @@ func repetitiveTask(cluster *ipfscluster.Cluster) {
 			// 	return
 			// }
 			jsonData := []byte(`{"email": "` + argumenttts[0] + `", "password": "` + argumenttts[1] + `", "nodeId": "` + argumenttts[2] + `"}`)
-			req, _ := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/node/verify-node-status", bytes.NewBuffer(jsonData))
+			req, _ := http.NewRequest("POST", "https://storagechain-stg-be.invo.zone/api/node/verify-node-status", bytes.NewBuffer(jsonData))
 			req.Header.Set("Content-Type", "application/json")
 
 			client := &http.Client{}

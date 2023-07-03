@@ -117,7 +117,7 @@ func daemon(c *cli.Context) error {
 	// will realize).
 	logger.Info("create cluster start from here deamon")
 	client := &http.Client{}
-	res, err := http.NewRequest("POST", "https://storagechain-be.invo.zone/api/node/get-swarm-info", nil)
+	res, err := http.NewRequest("POST", "https://storagechain-stg-be.invo.zone/api/node/get-swarm-info", nil)
 	if err != nil {
 		cluster.Shutdown(context.Background())
 	}
